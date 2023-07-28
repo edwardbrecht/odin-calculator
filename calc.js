@@ -18,7 +18,7 @@ function div(a, b) {
     return a / b;
 }
 
-function operate(num1, num2, op) {
+function operate(op, num1, num2) {
     let result = null;
     switch (op) {
         case "+":
@@ -34,7 +34,6 @@ function operate(num1, num2, op) {
             result = div(num1, num2);
             break;
     }
-    clear();
     return result;
 }
 
@@ -42,5 +41,4 @@ function clear() {
     num1 = null;
     num2 = null;
     op = null;
-    // TODO: clear display
 }
