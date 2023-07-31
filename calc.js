@@ -19,10 +19,13 @@ function div(a, b) {
 }
 
 function calculate(op, num1, num2) {
+    if (!op || !num1 || !num2) {
+        return;
+    }
     let result = null;
     switch (op) {
         case "+":
-            result = sum(num1, num2);
+            result = add(num1, num2);
             break;
         case "-":
             result = sub(num1, num2);
@@ -34,7 +37,9 @@ function calculate(op, num1, num2) {
             result = div(num1, num2);
             break;
     }
-    return result;
+    document.getElementById("display").innerText = result;
+    clearData();
+
 }
 
 function clearData() {
@@ -66,16 +71,23 @@ function initialize() {
     document.getElementById("minus").addEventListener("click", () => inputOp("-"));
     document.getElementById("times").addEventListener("click", () => inputOp("*"));
     document.getElementById("divide").addEventListener("click", () => inputOp("/"));
+
+    document.getElementById("equals").addEventListener("click", () => calculate(op, num1, num2));
 }
 
 function inputOp(operator) {
+    console.log(num1);
+    if (!num1) {
+        num1 = +document.getElementById("display").innerText;
+    }
+    console.log(num1);
     op = operator;
     console.log(op);
     clearDisplay();
 }
 
 function setOperand(num) {
-    if (!op) {
+    if (!op || !num1) {
         num1 = num;
     } else {
         num2 = num;
