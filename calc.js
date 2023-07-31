@@ -37,6 +37,7 @@ function calculate(op, num1, num2) {
             result = div(num1, num2);
             break;
     }
+    // TODO: If result >= 15 digits then reduce it 
     document.getElementById("display").innerText = result;
     clearData();
 
@@ -50,8 +51,9 @@ function clearData() {
 
 function inputNum(num) {
     const display = document.getElementById("display")
-    
-    if (display.innerText.length >= 15) {
+    if (!num1 && !num2 && !op) {
+        display.innerText = num;
+    } else if (display.innerText.length >= 15) {
         return;
     } else if (display.innerText === "0") {
         display.innerText = num;
