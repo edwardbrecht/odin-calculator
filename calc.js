@@ -42,3 +42,24 @@ function clear() {
     num2 = null;
     op = null;
 }
+
+function initialize() {
+    for (let i = 0; i < 10; i++) {
+        let currentBtn = document.getElementById("num-" + i);
+        currentBtn.addEventListener("click", () => inputNum(i));
+    }
+}
+
+function inputNum(num) {
+    const display = document.getElementById("display")
+    if (display.innerText.length >= 15) {
+        return;
+    }
+    if (display.innerText === "0") {
+        display.innerText = num;
+    } else {
+        display.innerText += num;
+    }
+}
+
+initialize();
