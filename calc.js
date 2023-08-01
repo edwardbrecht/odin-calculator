@@ -56,7 +56,7 @@ function inputNum(num) {
     const display = document.getElementById("display")
     if ((noNum(num1) && noNum(num2) && !op) && display.innerText != "0.") {
         display.innerText = num;
-    } else if (display.innerText.length >= 15) {
+    } else if (display.innerText.length >= 15 && !op) {
         return;
     } else if (op && display.innerText == num1) {
         display.innerText = num;
