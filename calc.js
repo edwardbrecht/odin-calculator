@@ -19,7 +19,8 @@ function div(a, b) {
 }
 
 function calculate(op, num1, num2) {
-    if (!op || !num1 || !num2) {
+    console.log(`${op} ${num1} ${num2}`)
+    if (!op || noNum(num1) || noNum(num2)) {
         return;
     }
     let result = null;
@@ -37,11 +38,13 @@ function calculate(op, num1, num2) {
             result = div(num1, num2);
             break;
     }
-    // TODO: If result >= 15 digits then reduce it 
+    if (result > 999999999999999) {
+        result = "ERROR";
+    }
     document.getElementById("display").innerText = result;
     clearData();
-
 }
+
 
 function clearData() {
     num1 = null;
@@ -51,10 +54,12 @@ function clearData() {
 
 function inputNum(num) {
     const display = document.getElementById("display")
-    if (!num1 && !num2 && !op) {
+    if (noNum(num1) && noNum(num2) && !op) {
         display.innerText = num;
     } else if (display.innerText.length >= 15) {
         return;
+    } else if (op && display.innerText == num1) {
+        display.innerText = num;
     } else if (display.innerText === "0") {
         display.innerText = num;
     } else {
@@ -68,38 +73,42 @@ function initialize() {
         let currentBtn = document.getElementById("num-" + i);
         currentBtn.addEventListener("click", () => inputNum(i));
     }
-
     document.getElementById("plus").addEventListener("click", () => inputOp("+"));
     document.getElementById("minus").addEventListener("click", () => inputOp("-"));
     document.getElementById("times").addEventListener("click", () => inputOp("*"));
     document.getElementById("divide").addEventListener("click", () => inputOp("/"));
-
     document.getElementById("equals").addEventListener("click", () => calculate(op, num1, num2));
 }
 
 function inputOp(operator) {
-    console.log(num1);
-    if (!num1) {
+    if (!noNum(num1) && !noNum(num2) && op) {
+        calculate(op, num1, num2);
+    }
+    
+    if (noNum(num1)) {
         num1 = +document.getElementById("display").innerText;
     }
-    console.log(num1);
     op = operator;
-    console.log(op);
-    clearDisplay();
 }
 
 function setOperand(num) {
-    if (!op || !num1) {
+    if (!op || noNum(num1)) {
         num1 = num;
     } else {
         num2 = num;
     }
-    console.log("num1: " + num1);
-    console.log("num2: " + num2)
 }
 
 function clearDisplay() {
     document.getElementById("display").innerText = "0";
+}
+
+function noNum(num) {
+    if (num === null || num === undefined || num === "") {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 initialize();
