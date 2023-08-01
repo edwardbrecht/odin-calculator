@@ -54,7 +54,7 @@ function clearData() {
 
 function inputNum(num) {
     const display = document.getElementById("display")
-    if (noNum(num1) && noNum(num2) && !op) {
+    if ((noNum(num1) && noNum(num2) && !op) && display.innerText != "0.") {
         display.innerText = num;
     } else if (display.innerText.length >= 15) {
         return;
@@ -68,6 +68,15 @@ function inputNum(num) {
     setOperand(+display.innerText)
 }
 
+
+function setOperand(num) {
+    if (!op || noNum(num1)) {
+        num1 = num;
+    } else {
+        num2 = num;
+    }
+}
+
 function initialize() {
     for (let i = 0; i < 10; i++) {
         let currentBtn = document.getElementById("num-" + i);
@@ -78,6 +87,7 @@ function initialize() {
     document.getElementById("times").addEventListener("click", () => inputOp("*"));
     document.getElementById("divide").addEventListener("click", () => inputOp("/"));
     document.getElementById("equals").addEventListener("click", () => calculate(op, num1, num2));
+    document.getElementById("decimal").addEventListener("click", () => inputDecimal())
 }
 
 function inputOp(operator) {
@@ -91,11 +101,15 @@ function inputOp(operator) {
     op = operator;
 }
 
-function setOperand(num) {
-    if (!op || noNum(num1)) {
-        num1 = num;
+function inputDecimal() {
+    const display = document.getElementById("display");
+    const dispArr = Array.from(display.innerText.toString());
+    if ((op && display.innerText == num1) || (noNum(num1) && (noNum(num2) && !op))) {
+        display.innerText = "0."; 
+    } else if (dispArr.includes(".")) {
+        return;
     } else {
-        num2 = num;
+        display.innerText += ".";
     }
 }
 
