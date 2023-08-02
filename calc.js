@@ -1,6 +1,9 @@
 let num1 = null;
 let num2 = null;
 let op = null;
+let lastResult = null;
+let lastNum2 = null;
+let lastOp = null;
 
 function add(a, b) {
     return a + b;
@@ -38,10 +41,15 @@ function calculate(op, num1, num2) {
             result = div(num1, num2);
             break;
     }
-    if (result > 999999999999999) {
+    if (result > 999999999999999 || Number.isNaN(result)) {
         result = "ERROR";
     }
     document.getElementById("display").innerText = result;
+    
+    lastOp = op;
+    lastResult = result;
+    lastNum2 = num2;
+
     clearData();
 }
 
@@ -58,6 +66,8 @@ function inputNum(num) {
         display.innerText = num;
     } else if (display.innerText.length >= 15 && !op) {
         return;
+    } else if (display.innerText === "ERROR") {
+        display.innerText = num;
     } else if (op && display.innerText == num1) {
         display.innerText = num;
     } else if (display.innerText === "0") {
@@ -86,7 +96,7 @@ function initialize() {
     document.getElementById("minus").addEventListener("click", () => inputOp("-"));
     document.getElementById("times").addEventListener("click", () => inputOp("*"));
     document.getElementById("divide").addEventListener("click", () => inputOp("/"));
-    document.getElementById("equals").addEventListener("click", () => calculate(op, num1, num2));
+    document.getElementById("equals").addEventListener("click", () => pressEqual());
     document.getElementById("decimal").addEventListener("click", () => inputDecimal())
 }
 
@@ -113,12 +123,16 @@ function inputDecimal() {
     }
 }
 
-function clearDisplay() {
-    document.getElementById("display").innerText = "0";
+function pressEqual() {
+    if (!op && noNum(num1) && noNum(num2)) {
+        calculate(lastOp, lastResult, lastNum2);
+    } else {
+        calculate(op, num1, num2);
+    }
 }
 
 function noNum(num) {
-    if (num === null || num === undefined || num === "") {
+    if (num === null || num === undefined || num === "" || num === "ERROR") {
         return true;
     } else {
         return false;
