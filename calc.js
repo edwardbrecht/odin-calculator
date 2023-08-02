@@ -99,7 +99,7 @@ function initialize() {
     document.getElementById("minus").addEventListener("click", () => inputOp("-"));
     document.getElementById("times").addEventListener("click", () => inputOp("*"));
     document.getElementById("divide").addEventListener("click", () => inputOp("/"));
-    document.getElementById("equals").addEventListener("click", () => pressEqual());
+    document.getElementById("equals").addEventListener("click", () => pressEquals());
     document.getElementById("decimal").addEventListener("click", () => inputDecimal())
 
     document.addEventListener("keydown", (event) => {
@@ -123,7 +123,7 @@ function initialize() {
                 inputOp("/")
                 break;
             case "Enter":
-                pressEqual()
+                pressEquals()
                 break;
             case ".":
                 inputDecimal();
@@ -155,7 +155,7 @@ function inputDecimal() {
     }
 }
 
-function pressEqual() {
+function pressEquals() {
     if (!op && noNum(num1) && noNum(num2)) {
         calculate(lastOp, lastResult, lastNum2);
     } else {
