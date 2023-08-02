@@ -41,9 +41,12 @@ function calculate(op, num1, num2) {
             result = div(num1, num2);
             break;
     }
-    if (result > 999999999999999 || Number.isNaN(result)) {
+    
+    resArr = Array.from(result.toString());
+    if (resArr.length > 15 || Number.isNaN(result)) {
         result = "ERROR";
     }
+
     document.getElementById("display").innerText = result;
     
     lastOp = op;
@@ -98,6 +101,35 @@ function initialize() {
     document.getElementById("divide").addEventListener("click", () => inputOp("/"));
     document.getElementById("equals").addEventListener("click", () => pressEqual());
     document.getElementById("decimal").addEventListener("click", () => inputDecimal())
+
+    document.addEventListener("keydown", (event) => {
+        const name = event.key;
+        for (let i = 0; i < 10; i++) {
+            if (name === i.toString()) {
+                inputNum(i);
+            }
+        }
+        switch (name) {
+            case "+":
+                inputOp("+");
+                break;
+            case "-":
+                inputOp("-");
+                break;
+            case "*":
+                inputOp("*");
+                break;
+            case "/":
+                inputOp("/")
+                break;
+            case "Enter":
+                pressEqual()
+                break;
+            case ".":
+                inputDecimal();
+                break;
+        }
+    })
 }
 
 function inputOp(operator) {
